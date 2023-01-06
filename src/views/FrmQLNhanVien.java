@@ -4,6 +4,12 @@
  */
 package views;
 
+import domainmodels.NhanVien;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import services.NhanVienService;
+import services.impl.NhanVienServiceImpl;
+
 /**
  *
  * @author virus
@@ -13,14 +19,29 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     /**
      * Creates new form FrmNhanVienView
      */
+    NhanVienService service;
+    DefaultTableModel dtm;
+    
     public FrmQLNhanVien(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Quan Ly Nhan Vien");
-        
+        dtm = new DefaultTableModel();
+        dtm = (DefaultTableModel) this.tbQLNV.getModel();
+        service = new NhanVienServiceImpl();
+        showDataTable(service.getAllNhanVien());
         setLocationRelativeTo(this);
     }
-
+    
+    private void showDataTable(List<NhanVien> list) {
+        dtm.setRowCount(0);
+        for (NhanVien nv : list) {
+            dtm.addRow(nv.toRowData());
+        }
+    }
+    private boolean validateForm(){
+        if()
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,6 +51,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -70,8 +92,11 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
 
         jLabel9.setText("Ho va ten");
 
+        buttonGroup1.add(rdNam);
+        rdNam.setSelected(true);
         rdNam.setText("Nam");
 
+        buttonGroup1.add(rdNu);
         rdNu.setText("Nu");
 
         cbbTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -90,6 +115,11 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         jScrollPane1.setViewportView(tbQLNV);
 
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Update");
 
@@ -210,6 +240,11 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -254,6 +289,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbTrangThai;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
