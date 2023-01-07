@@ -5,7 +5,13 @@
 package views;
 
 import domainmodels.NhanVien;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.NhanVienService;
 import services.impl.NhanVienServiceImpl;
@@ -29,6 +35,9 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         dtm = new DefaultTableModel();
         dtm = (DefaultTableModel) this.tbQLNV.getModel();
         service = new NhanVienServiceImpl();
+        cbbTrangThai.removeAllItems();
+        cbbTrangThai.addItem("0");
+        cbbTrangThai.addItem("1");
         showDataTable(service.getAllNhanVien());
         setLocationRelativeTo(this);
     }
@@ -39,9 +48,15 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
             dtm.addRow(nv.toRowData());
         }
     }
-    private boolean validateForm(){
-        if()
+    
+    private boolean validateForm() {
+        if (txtMa.getText().equals("") || txtMa.getText().matches("\\s+") || txtHoVaTen.equals("") || txtHoVaTen.getText().matches("\\s+") || txtDiaChi.getText().equals("") || txtDiaChi.getText().matches("\\s+") || txtMatKhau.getText().matches("\\s+") || txtMatKhau.getText().equals("") || txtNgaySinh.getText().equals("") || txtNgaySinh.getText().matches("\\s+")) {
+            JOptionPane.showMessageDialog(rootPane, "You can't leave any null in any text!!");
+            return false;
+        }
+        return true;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -65,7 +80,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         txtHoVaTen = new javax.swing.JTextField();
         rdNam = new javax.swing.JRadioButton();
         rdNu = new javax.swing.JRadioButton();
-        rdNgaySinh = new javax.swing.JTextField();
+        txtNgaySinh = new javax.swing.JTextField();
         txtDiaChi = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JPasswordField();
         cbbTrangThai = new javax.swing.JComboBox<>();
@@ -155,7 +170,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                                    .addComponent(rdNgaySinh)
+                                    .addComponent(txtNgaySinh)
                                     .addComponent(txtDiaChi)
                                     .addComponent(cbbTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jLabel5)
@@ -212,7 +227,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
-                                    .addComponent(rdNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +257,31 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+        if (validateForm() == true) {
+            NhanVien nv = new NhanVien();
+            nv.setMa(txtMa.getText());
+            String fullName = txtHoVaTen.getText();
+            fullName.trim();
+            nv.setHo(fullName.substring(0, fullName.indexOf("")));
+            nv.setTenDem(fullName.substring(fullName.indexOf(""), fullName.lastIndexOf("")));
+            nv.setTen(fullName.substring(fullName.lastIndexOf("")));
+            if (rdNam.isSelected()) {
+                nv.setGioiTinh("Nam");
+            } else {
+                nv.setGioiTinh("Nu");
+            }
+            try {
+                Date dt = new SimpleDateFormat("dd/mm/yyyy").parse(txtNgaySinh.getText());
+                nv.setNgaySinh(dt);
+            } catch (ParseException ex) {
+                Logger.getLogger(FrmQLNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            nv.setMatKhau(txtMatKhau.getText());
+            nv.setTrangThai(cbbTrangThai.getSelectedIndex());
+            JOptionPane.showMessageDialog(rootPane, service.addNhanVien(nv));
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Failed when you ");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -306,12 +345,12 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rdNam;
-    private javax.swing.JTextField rdNgaySinh;
     private javax.swing.JRadioButton rdNu;
     private javax.swing.JTable tbQLNV;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtHoVaTen;
     private javax.swing.JTextField txtMa;
     private javax.swing.JPasswordField txtMatKhau;
+    private javax.swing.JTextField txtNgaySinh;
     // End of variables declaration//GEN-END:variables
 }
