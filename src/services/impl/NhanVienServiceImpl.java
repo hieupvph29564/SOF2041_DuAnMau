@@ -52,4 +52,9 @@ public class NhanVienServiceImpl implements NhanVienService {
         }
     }
 
+    @Override
+    public NhanVien getOne(String ma) {
+        return repository.getOne(ma);
+    }
+
 }

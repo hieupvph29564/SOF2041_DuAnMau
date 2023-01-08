@@ -5,6 +5,7 @@
 package views;
 
 import domainmodels.NhanVien;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
      */
     NhanVienService service;
     DefaultTableModel dtm;
-    
+
     public FrmQLNhanVien(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -41,14 +42,14 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         showDataTable(service.getAllNhanVien());
         setLocationRelativeTo(this);
     }
-    
+
     private void showDataTable(List<NhanVien> list) {
         dtm.setRowCount(0);
         for (NhanVien nv : list) {
             dtm.addRow(nv.toRowData());
         }
     }
-    
+
     private boolean validateForm() {
         if (txtMa.getText().equals("") || txtMa.getText().matches("\\s+") || txtHoVaTen.equals("") || txtHoVaTen.getText().matches("\\s+") || txtDiaChi.getText().equals("") || txtDiaChi.getText().matches("\\s+") || txtMatKhau.getText().matches("\\s+") || txtMatKhau.getText().equals("") || txtNgaySinh.getText().equals("") || txtNgaySinh.getText().matches("\\s+")) {
             JOptionPane.showMessageDialog(rootPane, "You can't leave any null in any text!!");
@@ -127,6 +128,11 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
                 "ID", "Ma", "Name", "Gender", "Date", "Adress", "Password", "IDCH", "IDCV", "IDGUIBC", "Status"
             }
         ));
+        tbQLNV.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbQLNVMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbQLNV);
 
         jButton1.setText("Add");
@@ -137,10 +143,25 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         });
 
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Delete");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Clear");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -279,10 +300,89 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
             nv.setMatKhau(txtMatKhau.getText());
             nv.setTrangThai(cbbTrangThai.getSelectedIndex());
             JOptionPane.showMessageDialog(rootPane, service.addNhanVien(nv));
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Failed when you ");
+            showDataTable(service.getAllNhanVien());
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Failed when you try to add");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if (validateForm() == true) {
+            int index = tbQLNV.getSelectedRow();
+            String ma = tbQLNV.getValueAt(index, 1).toString();
+            NhanVien nv = new NhanVien();
+            nv.setMa(txtMa.getText());
+            String fullName = txtHoVaTen.getText();
+            fullName.trim();
+            nv.setHo(fullName.substring(0, fullName.indexOf("")));
+            nv.setTenDem(fullName.substring(fullName.indexOf(""), fullName.lastIndexOf("")));
+            nv.setTen(fullName.substring(fullName.lastIndexOf("")));
+            if (rdNam.isSelected()) {
+                nv.setGioiTinh("Nam");
+            } else {
+                nv.setGioiTinh("Nu");
+            }
+            try {
+                Date dt = new SimpleDateFormat("dd/mm/yyyy").parse(txtNgaySinh.getText());
+                nv.setNgaySinh(dt);
+            } catch (ParseException ex) {
+                Logger.getLogger(FrmQLNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            nv.setMatKhau(txtMatKhau.getText());
+            nv.setTrangThai(cbbTrangThai.getSelectedIndex());
+            JOptionPane.showMessageDialog(rootPane, service.updateNhanVien(nv, ma));
+            showDataTable(service.getAllNhanVien());
+
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Failed when you try to update");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tbQLNVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbQLNVMouseClicked
+        // TODO add your handling code here:
+        int index = tbQLNV.getSelectedRow();
+        String ma = tbQLNV.getValueAt(index, 1).toString();
+        NhanVien nv = service.getOne(ma);
+        txtMa.setText(nv.getMa());
+        txtHoVaTen.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
+        if (nv.getGioiTinh().equals("Nam")) {
+            rdNam.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
+        }
+        try {
+            Date date = nv.getNgaySinh();
+            DateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+            String birt = df.format(date);
+            txtNgaySinh.setText(birt);
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        txtMatKhau.setText(nv.getMatKhau());
+        cbbTrangThai.setSelectedIndex(nv.getTrangThai());
+    }//GEN-LAST:event_tbQLNVMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int index = tbQLNV.getSelectedRow();
+        String ma = tbQLNV.getValueAt(index, 1).toString();
+        JOptionPane.showMessageDialog(rootPane, service.deleteNhanVien(ma));
+        showDataTable(service.getAllNhanVien());
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        txtMa.setText("");
+        txtHoVaTen.setText("");
+        rdNam.setSelected(true);
+        txtDiaChi.setText("");
+        txtNgaySinh.setText("");
+        txtMatKhau.setText("");
+        cbbTrangThai.setSelectedIndex(0);
+        showDataTable(service.getAllNhanVien());
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

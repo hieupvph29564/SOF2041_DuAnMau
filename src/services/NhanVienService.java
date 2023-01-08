@@ -13,6 +13,8 @@ import java.util.List;
  */
 public interface NhanVienService {
 
+    NhanVien getOne(String ma);
+
     List<NhanVien> getAllNhanVien();
 
     String addNhanVien(NhanVien nv);
@@ -20,5 +22,5 @@ public interface NhanVienService {
     String updateNhanVien(NhanVien nv, String ma);
 
     String deleteNhanVien(String ma);
-    
+
 }
