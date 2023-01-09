@@ -52,4 +52,7 @@ public class ChucVu {
         return "ChucVu{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + '}';
     }
 
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.ma, this.ten};
+    }
 }
