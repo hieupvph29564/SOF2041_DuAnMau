@@ -82,4 +82,7 @@ public class CuaHang {
         return "CuaHang{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + ", diaChi=" + diaChi + ", thanhPho=" + thanhPho + ", quocGia=" + quocGia + '}';
     }
 
+    public Object[] toRowData() {
+        return new Object[]{this.id, this.ma, this.ten, this.diaChi, this.thanhPho, this.quocGia};
+    }
 }
