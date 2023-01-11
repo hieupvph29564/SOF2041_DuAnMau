@@ -52,4 +52,9 @@ public class ChucVuServiceImpl implements ChucVuService {
         }
     }
 
+    @Override
+    public ChucVu getOneChucVu(String ma) {
+        return repository.getOneChucVu(ma);
+    }
+
 }

@@ -20,5 +20,7 @@ public interface ChucVuService {
     String updateChucVu(ChucVu cv, String ma);
 
     String deleteChucVu(String ma);
+
+    ChucVu getOneChucVu(String ma);
     
 }

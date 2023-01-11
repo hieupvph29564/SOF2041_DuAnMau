@@ -39,6 +39,27 @@ public class ChucVuRepository {
         return null;
     }
 
+    public ChucVu getOneChucVu(String ma) {
+        String query = """
+                      SELECT [Id]
+                             ,[Ma]
+                             ,[Ten]
+                         FROM [dbo].[ChucVu]
+                         WHERE [Ma] = ?;
+                       """;
+        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, ma);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
+                return cv;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
+
     public boolean addChucVu(ChucVu cv) {
         int check = 0;
         String query = """
