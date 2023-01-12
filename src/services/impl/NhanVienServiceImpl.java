@@ -4,10 +4,10 @@
  */
 package services.impl;
 
-import domainmodels.NhanVien;
 import java.util.List;
 import repositorys.NhanVienRepository;
 import services.NhanVienService;
+import viewmodels.NhanVienViewModel;
 
 /**
  *
@@ -18,12 +18,12 @@ public class NhanVienServiceImpl implements NhanVienService {
     NhanVienRepository repository = new NhanVienRepository();
 
     @Override
-    public List<NhanVien> getAllNhanVien() {
+    public List<NhanVienViewModel> getAllNhanVien() {
         return repository.getAllNhanVien();
     }
 
     @Override
-    public String addNhanVien(NhanVien nv) {
+    public String addNhanVien(NhanVienViewModel nv) {
         boolean check = repository.addNhanVien(nv);
         if (check == true) {
             return "Add successful";
@@ -33,7 +33,7 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     @Override
-    public String updateNhanVien(NhanVien nv, String ma) {
+    public String updateNhanVien(NhanVienViewModel nv, String ma) {
         boolean check = repository.updateNhanVien(nv, ma);
         if (check == true) {
             return "Update successful";
@@ -53,7 +53,7 @@ public class NhanVienServiceImpl implements NhanVienService {
     }
 
     @Override
-    public NhanVien getOne(String ma) {
+    public NhanVienViewModel getOne(String ma) {
         return repository.getOne(ma);
     }
 

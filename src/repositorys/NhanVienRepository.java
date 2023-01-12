@@ -4,13 +4,13 @@
  */
 package repositorys;
 
-import domainmodels.NhanVien;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import utilities.DBContext;
+import viewmodels.NhanVienViewModel;
 
 /**
  *
@@ -18,7 +18,7 @@ import utilities.DBContext;
  */
 public class NhanVienRepository {
 
-    public NhanVien getOne(String ma) {
+    public NhanVienViewModel getOne(String ma) {
         String query = """
                        SELECT [Id]
                              ,[Ma]
@@ -41,9 +41,7 @@ public class NhanVienRepository {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                NhanVien nv = new NhanVien(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                        rs.getString(6), rs.getDate(7), rs.getString(8), rs.getString(9),
-                        rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                NhanVienViewModel nv = new NhanVienViewModel(rs.getString(2), rs.getString(5), rs.getString(4), rs.getString(3), rs.getString(6), rs.getString(7), rs.getInt(14));
                 return nv;
             }
         } catch (Exception e) {
@@ -52,7 +50,7 @@ public class NhanVienRepository {
         return null;
     }
 
-    public List<NhanVien> getAllNhanVien() {
+    public List<NhanVienViewModel> getAllNhanVien() {
         String query = """
                        SELECT [Id]
                              ,[Ma]
@@ -71,10 +69,10 @@ public class NhanVienRepository {
                          FROM [dbo].[NhanVien]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<NhanVien> list = new ArrayList<>();
+            List<NhanVienViewModel> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                NhanVien nv = new NhanVien(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
+                NhanVienViewModel nv = new NhanVienViewModel(rs.getString(2), rs.getString(5), rs.getString(4), rs.getString(3), rs.getString(6), rs.getString(7), rs.getInt(14));
                 list.add(nv);
             }
             return list;
@@ -84,7 +82,7 @@ public class NhanVienRepository {
         return null;
     }
 
-    public boolean addNhanVien(NhanVien nv) {
+    public boolean addNhanVien(NhanVienViewModel nv) {
         int check = 0;
         String query = """
                       INSERT INTO [dbo].[NhanVien]
@@ -93,16 +91,10 @@ public class NhanVienRepository {
                                   ,[TenDem]
                                   ,[Ho]
                                   ,[GioiTinh]
-                                  ,[NgaySinh]
                                   ,[DiaChi]
-                                  ,[Sdt]
-                                  ,[MatKhau]
                                   ,[TrangThai])
                             VALUES
                                   (?
-                                  ,?
-                                  ,?
-                                  ,?
                                   ,?
                                   ,?
                                   ,?
@@ -116,11 +108,8 @@ public class NhanVienRepository {
             ps.setObject(3, nv.getTenDem());
             ps.setObject(4, nv.getHo());
             ps.setObject(5, nv.getGioiTinh());
-            ps.setObject(6, nv.getNgaySinh());
-            ps.setObject(7, nv.getDiaChi());
-            ps.setObject(8, nv.getSdt());
-            ps.setObject(9, nv.getMatKhau());
-            ps.setObject(10, nv.getTrangThai());
+            ps.setObject(6, nv.getDiaChi());
+            ps.setObject(7, nv.getTrangThai());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -128,7 +117,7 @@ public class NhanVienRepository {
         return check > 0;
     }
 
-    public boolean updateNhanVien(NhanVien nv, String ma) {
+    public boolean updateNhanVien(NhanVienViewModel nv, String ma) {
         int check = 0;
         String query = """
                        UPDATE [dbo].[NhanVien]
@@ -137,10 +126,7 @@ public class NhanVienRepository {
                              ,[TenDem] = ?
                              ,[Ho] = ?
                              ,[GioiTinh] = ?
-                             ,[NgaySinh] = ?
                              ,[DiaChi] = ?
-                             ,[Sdt] = ?
-                             ,[MatKhau] = ?
                              ,[TrangThai] = ?
                         WHERE [Ma] = ?
                        """;
@@ -150,12 +136,9 @@ public class NhanVienRepository {
             ps.setObject(3, nv.getTenDem());
             ps.setObject(4, nv.getHo());
             ps.setObject(5, nv.getGioiTinh());
-            ps.setObject(6, nv.getNgaySinh());
-            ps.setObject(7, nv.getDiaChi());
-            ps.setObject(8, nv.getSdt());
-            ps.setObject(9, nv.getMatKhau());
-            ps.setObject(10, nv.getTrangThai());
-            ps.setObject(11, ma);
+            ps.setObject(6, nv.getDiaChi());
+            ps.setObject(7, nv.getTrangThai());
+            ps.setObject(8, ma);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);

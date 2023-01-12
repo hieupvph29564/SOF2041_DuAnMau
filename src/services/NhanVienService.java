@@ -4,8 +4,8 @@
  */
 package services;
 
-import domainmodels.NhanVien;
 import java.util.List;
+import viewmodels.NhanVienViewModel;
 
 /**
  *
@@ -13,13 +13,13 @@ import java.util.List;
  */
 public interface NhanVienService {
 
-    NhanVien getOne(String ma);
+    NhanVienViewModel getOne(String ma);
 
-    List<NhanVien> getAllNhanVien();
+    List<NhanVienViewModel> getAllNhanVien();
 
-    String addNhanVien(NhanVien nv);
+    String addNhanVien(NhanVienViewModel nv);
 
-    String updateNhanVien(NhanVien nv, String ma);
+    String updateNhanVien(NhanVienViewModel nv, String ma);
 
     String deleteNhanVien(String ma);
 
