@@ -4,7 +4,7 @@
  */
 package repositorys;
 
-import domainmodels.ChucVu;
+import viewmodels.ChucVuViewModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +18,7 @@ import utilities.DBContext;
  */
 public class ChucVuRepository {
 
-    public List<ChucVu> getAllChucVu() {
+    public List<ChucVuViewModel> getAllChucVu() {
         String query = """
                       SELECT [Id]
                              ,[Ma]
@@ -26,10 +26,10 @@ public class ChucVuRepository {
                          FROM [dbo].[ChucVu]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<ChucVu> list = new ArrayList<>();
+            List<ChucVuViewModel> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
+                ChucVuViewModel cv = new ChucVuViewModel(rs.getString(2), rs.getString(3));
                 list.add(cv);
             }
             return list;
@@ -39,7 +39,7 @@ public class ChucVuRepository {
         return null;
     }
 
-    public ChucVu getOneChucVu(String ma) {
+    public ChucVuViewModel getOneChucVu(String ma) {
         String query = """
                       SELECT [Id]
                              ,[Ma]
@@ -51,7 +51,7 @@ public class ChucVuRepository {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
+                ChucVuViewModel cv = new ChucVuViewModel(rs.getString(2), rs.getString(3));
                 return cv;
             }
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class ChucVuRepository {
         return null;
     }
 
-    public boolean addChucVu(ChucVu cv) {
+    public boolean addChucVu(ChucVuViewModel cv) {
         int check = 0;
         String query = """
                       INSERT INTO [dbo].[ChucVu]
@@ -80,7 +80,7 @@ public class ChucVuRepository {
         return check > 0;
     }
 
-    public boolean updateChucVu(ChucVu cv, String ma) {
+    public boolean updateChucVu(ChucVuViewModel cv, String ma) {
         int check = 0;
         String query = """
                     UPDATE [dbo].[ChucVu]

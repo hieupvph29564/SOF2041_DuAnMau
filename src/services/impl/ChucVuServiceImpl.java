@@ -4,10 +4,10 @@
  */
 package services.impl;
 
-import domainmodels.ChucVu;
 import java.util.List;
 import repositorys.ChucVuRepository;
 import services.ChucVuService;
+import viewmodels.ChucVuViewModel;
 
 /**
  *
@@ -18,12 +18,12 @@ public class ChucVuServiceImpl implements ChucVuService {
     ChucVuRepository repository = new ChucVuRepository();
 
     @Override
-    public List<ChucVu> getAllChucVu() {
+    public List<ChucVuViewModel> getAllChucVu() {
         return repository.getAllChucVu();
     }
 
     @Override
-    public String addNChucVu(ChucVu cv) {
+    public String addNChucVu(ChucVuViewModel cv) {
         boolean check = repository.addChucVu(cv);
         if (check == true) {
             return "Add successful";
@@ -33,7 +33,7 @@ public class ChucVuServiceImpl implements ChucVuService {
     }
 
     @Override
-    public String updateChucVu(ChucVu cv, String ma) {
+    public String updateChucVu(ChucVuViewModel cv, String ma) {
         boolean check = repository.updateChucVu(cv, ma);
         if (check == true) {
             return "Update successful";
@@ -53,7 +53,7 @@ public class ChucVuServiceImpl implements ChucVuService {
     }
 
     @Override
-    public ChucVu getOneChucVu(String ma) {
+    public ChucVuViewModel getOneChucVu(String ma) {
         return repository.getOneChucVu(ma);
     }
 

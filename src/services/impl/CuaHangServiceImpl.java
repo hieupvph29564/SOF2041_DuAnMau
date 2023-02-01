@@ -4,10 +4,10 @@
  */
 package services.impl;
 
-import domainmodels.CuaHang;
 import java.util.List;
 import repositorys.CuaHangRepository;
 import services.CuaHangService;
+import viewmodels.CuaHangViewModel;
 
 /**
  *
@@ -18,12 +18,12 @@ public class CuaHangServiceImpl implements CuaHangService {
     CuaHangRepository repository = new CuaHangRepository();
 
     @Override
-    public List<CuaHang> getAllCuaHang() {
+    public List<CuaHangViewModel> getAllCuaHang() {
         return repository.getAllCuaHang();
     }
 
     @Override
-    public String addCuaHang(CuaHang ch) {
+    public String addCuaHang(CuaHangViewModel ch) {
         boolean check = repository.addCuaHang(ch);
         if (check == true) {
             return "Add successful";
@@ -33,7 +33,7 @@ public class CuaHangServiceImpl implements CuaHangService {
     }
 
     @Override
-    public String updateCuaHang(CuaHang ch, String ma) {
+    public String updateCuaHang(CuaHangViewModel ch, String ma) {
         boolean check = repository.updateCuaHang(ch, ma);
         if (check == true) {
             return "Update successful";
@@ -50,6 +50,11 @@ public class CuaHangServiceImpl implements CuaHangService {
         } else {
             return "Delete failed";
         }
+    }
+
+    @Override
+    public CuaHangViewModel getOneCuaHang(String ma) {
+        return repository.getOneCuaHang(ma);
     }
 
 }

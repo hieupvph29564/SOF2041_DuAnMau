@@ -4,12 +4,12 @@
  */
 package views;
 
-import domainmodels.ChucVu;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import services.ChucVuService;
 import services.impl.ChucVuServiceImpl;
+import viewmodels.ChucVuViewModel;
 
 /**
  *
@@ -34,9 +34,9 @@ public class FrmQLChucVu extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }
     
-    private void showDataTable(List<ChucVu> list) {
+    private void showDataTable(List<ChucVuViewModel> list) {
         dtm.setRowCount(0);
-        for (ChucVu cv : list) {
+        for (ChucVuViewModel cv : list) {
             dtm.addRow(cv.toRowData());
         }
     }
@@ -68,13 +68,13 @@ public class FrmQLChucVu extends javax.swing.JDialog {
 
         tbQLCV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "ID", "Mã", "Tên"
+                "Mã", "Tên"
             }
         ));
         tbQLCV.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -161,7 +161,7 @@ public class FrmQLChucVu extends javax.swing.JDialog {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        ChucVu cv = new ChucVu();
+        ChucVuViewModel cv = new ChucVuViewModel();
         cv.setMa(txtMa.getText());
         cv.setTen(txtTen.getText());
         JOptionPane.showMessageDialog(rootPane, service.addNChucVu(cv));
@@ -171,8 +171,8 @@ public class FrmQLChucVu extends javax.swing.JDialog {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         int index = tbQLCV.getSelectedRow();
-        String ma = tbQLCV.getValueAt(index, 1).toString();
-        ChucVu cv = new ChucVu();
+        String ma = tbQLCV.getValueAt(index, 0).toString();
+        ChucVuViewModel cv = new ChucVuViewModel();
         cv.setMa(txtMa.getText());
         cv.setTen(txtTen.getText());
         JOptionPane.showMessageDialog(rootPane, service.updateChucVu(cv, ma));
@@ -182,7 +182,7 @@ public class FrmQLChucVu extends javax.swing.JDialog {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int index = tbQLCV.getSelectedRow();
-        String ma = tbQLCV.getValueAt(index, 1).toString();
+        String ma = tbQLCV.getValueAt(index, 0).toString();
         JOptionPane.showMessageDialog(rootPane, service.deleteChucVu(ma));
         showDataTable(service.getAllChucVu());
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -190,8 +190,8 @@ public class FrmQLChucVu extends javax.swing.JDialog {
     private void tbQLCVMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbQLCVMouseClicked
         // TODO add your handling code here:
         int index = tbQLCV.getSelectedRow();
-        String ma = tbQLCV.getValueAt(index, 1).toString();
-        ChucVu cv = service.getOneChucVu(ma);
+        String ma = tbQLCV.getValueAt(index, 0).toString();
+        ChucVuViewModel cv = service.getOneChucVu(ma);
         txtMa.setText(cv.getMa());
         txtTen.setText(cv.getTen());
     }//GEN-LAST:event_tbQLCVMouseClicked

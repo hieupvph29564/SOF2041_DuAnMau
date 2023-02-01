@@ -4,8 +4,8 @@
  */
 package services;
 
-import domainmodels.ChucVu;
 import java.util.List;
+import viewmodels.ChucVuViewModel;
 
 /**
  *
@@ -13,14 +13,14 @@ import java.util.List;
  */
 public interface ChucVuService {
 
-    List<ChucVu> getAllChucVu();
+    List<ChucVuViewModel> getAllChucVu();
 
-    String addNChucVu(ChucVu cv);
+    String addNChucVu(ChucVuViewModel cv);
 
-    String updateChucVu(ChucVu cv, String ma);
+    String updateChucVu(ChucVuViewModel cv, String ma);
 
     String deleteChucVu(String ma);
 
-    ChucVu getOneChucVu(String ma);
-    
+    ChucVuViewModel getOneChucVu(String ma);
+
 }

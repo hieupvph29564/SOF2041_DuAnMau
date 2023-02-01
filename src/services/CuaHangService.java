@@ -4,8 +4,8 @@
  */
 package services;
 
-import domainmodels.CuaHang;
 import java.util.List;
+import viewmodels.CuaHangViewModel;
 
 /**
  *
@@ -13,12 +13,14 @@ import java.util.List;
  */
 public interface CuaHangService {
 
-    List<CuaHang> getAllCuaHang();
+    List<CuaHangViewModel> getAllCuaHang();
 
-    String addCuaHang(CuaHang ch);
+    String addCuaHang(CuaHangViewModel ch);
 
-    String updateCuaHang(CuaHang ch, String ma);
+    String updateCuaHang(CuaHangViewModel ch, String ma);
 
     String deleteCuaHang(String ma);
+
+    CuaHangViewModel getOneCuaHang(String ma);
     
 }
