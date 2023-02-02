@@ -4,6 +4,8 @@
  */
 package services.impl;
 
+import domainmodels.NhanVien;
+import java.util.ArrayList;
 import java.util.List;
 import repositorys.NhanVienRepository;
 import services.NhanVienService;
@@ -15,16 +17,34 @@ import viewmodels.NhanVienViewModel;
  */
 public class NhanVienServiceImpl implements NhanVienService {
 
-    NhanVienRepository repository = new NhanVienRepository();
+    NhanVienRepository repository;
+    List<NhanVienViewModel> listNhanVienViewModels;
+
+    public NhanVienServiceImpl() {
+        repository = new NhanVienRepository();
+        listNhanVienViewModels = new ArrayList<>();
+    }
 
     @Override
     public List<NhanVienViewModel> getAllNhanVien() {
-        return repository.getAllNhanVien();
+        List<NhanVien> listNhanVienDomains = repository.getAllNhanVien();
+        for (NhanVien nv : listNhanVienDomains) {
+            listNhanVienViewModels.add(new NhanVienViewModel(nv.getMa(), nv.getHo(), nv.getTenDem(), nv.getTen(), nv.getGioiTinh(), nv.getDiaChi(), nv.getTrangThai()));
+        }
+        return listNhanVienViewModels;
     }
 
     @Override
     public String addNhanVien(NhanVienViewModel nv) {
-        boolean check = repository.addNhanVien(nv);
+        NhanVien nvDomain = new NhanVien();
+        nvDomain.setMa(nv.getMa());
+        nvDomain.setHo(nv.getHo());
+        nvDomain.setTenDem(nv.getTenDem());
+        nvDomain.setTen(nv.getTen());
+        nvDomain.setGioiTinh(nv.getGioiTinh());
+        nvDomain.setDiaChi(nv.getDiaChi());
+        nvDomain.setTrangThai(nv.getTrangThai());
+        boolean check = repository.addNhanVien(nvDomain);
         if (check == true) {
             return "Add successful";
         } else {
@@ -34,7 +54,15 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Override
     public String updateNhanVien(NhanVienViewModel nv, String ma) {
-        boolean check = repository.updateNhanVien(nv, ma);
+        NhanVien nvDomain = new NhanVien();
+        nvDomain.setMa(nv.getMa());
+        nvDomain.setHo(nv.getHo());
+        nvDomain.setTenDem(nv.getTenDem());
+        nvDomain.setTen(nv.getTen());
+        nvDomain.setGioiTinh(nv.getGioiTinh());
+        nvDomain.setDiaChi(nv.getDiaChi());
+        nvDomain.setTrangThai(nv.getTrangThai());
+        boolean check = repository.updateNhanVien(nvDomain, ma);
         if (check == true) {
             return "Update successful";
         } else {
@@ -54,7 +82,9 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     @Override
     public NhanVienViewModel getOne(String ma) {
-        return repository.getOne(ma);
+        NhanVien nvDomain = repository.getOne(ma);
+        NhanVienViewModel nv = new NhanVienViewModel(nvDomain.getMa(), nvDomain.getHo(), nvDomain.getTenDem(), nvDomain.getTen(), nvDomain.getGioiTinh(), nvDomain.getDiaChi(), nvDomain.getTrangThai());
+        return nv;
     }
 
 }

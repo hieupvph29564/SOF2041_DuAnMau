@@ -4,6 +4,8 @@
  */
 package services.impl;
 
+import domainmodels.CuaHang;
+import java.util.ArrayList;
 import java.util.List;
 import repositorys.CuaHangRepository;
 import services.CuaHangService;
@@ -16,15 +18,26 @@ import viewmodels.CuaHangViewModel;
 public class CuaHangServiceImpl implements CuaHangService {
 
     CuaHangRepository repository = new CuaHangRepository();
+    List<CuaHang> listCuaHangDomains = new ArrayList<>();
 
     @Override
     public List<CuaHangViewModel> getAllCuaHang() {
-        return repository.getAllCuaHang();
+        listCuaHangDomains = repository.getAllCuaHang();
+        List<CuaHangViewModel> listCuaHangViewModels = new ArrayList<>();
+        for (CuaHang ch : listCuaHangDomains) {
+            listCuaHangViewModels.add(new CuaHangViewModel(ch.getMa(), ch.getTen(), ch.getDiaChi(), ch.getThanhPho()));
+        }
+        return listCuaHangViewModels;
     }
 
     @Override
     public String addCuaHang(CuaHangViewModel ch) {
-        boolean check = repository.addCuaHang(ch);
+        CuaHang chDomain = new CuaHang();
+        chDomain.setMa(ch.getMa());
+        chDomain.setTen(ch.getTen());
+        chDomain.setDiaChi(ch.getDiaChi());
+        chDomain.setThanhPho(ch.getThanhPho());
+        boolean check = repository.addCuaHang(chDomain);
         if (check == true) {
             return "Add successful";
         } else {
@@ -34,7 +47,12 @@ public class CuaHangServiceImpl implements CuaHangService {
 
     @Override
     public String updateCuaHang(CuaHangViewModel ch, String ma) {
-        boolean check = repository.updateCuaHang(ch, ma);
+        CuaHang chDomain = new CuaHang();
+        chDomain.setMa(ch.getMa());
+        chDomain.setTen(ch.getTen());
+        chDomain.setDiaChi(ch.getDiaChi());
+        chDomain.setThanhPho(ch.getThanhPho());
+        boolean check = repository.updateCuaHang(chDomain, ma);
         if (check == true) {
             return "Update successful";
         } else {
@@ -54,7 +72,9 @@ public class CuaHangServiceImpl implements CuaHangService {
 
     @Override
     public CuaHangViewModel getOneCuaHang(String ma) {
-        return repository.getOneCuaHang(ma);
+        CuaHang chDomain = repository.getOneCuaHang(ma);
+        CuaHangViewModel chViewModel = new CuaHangViewModel(chDomain.getMa(), chDomain.getTen(), chDomain.getDiaChi(), chDomain.getThanhPho());
+        return chViewModel;
     }
 
 }

@@ -4,6 +4,8 @@
  */
 package services.impl;
 
+import domainmodels.ChucVu;
+import java.util.ArrayList;
 import java.util.List;
 import repositorys.ChucVuRepository;
 import services.ChucVuService;
@@ -16,15 +18,24 @@ import viewmodels.ChucVuViewModel;
 public class ChucVuServiceImpl implements ChucVuService {
 
     ChucVuRepository repository = new ChucVuRepository();
+    List<ChucVu> listChucVuDomain = new ArrayList<>();
 
     @Override
     public List<ChucVuViewModel> getAllChucVu() {
-        return repository.getAllChucVu();
+        listChucVuDomain = repository.getAllChucVu();
+        List<ChucVuViewModel> listChucVuViewModels = new ArrayList<>();
+        for (ChucVu cv : listChucVuDomain) {
+            listChucVuViewModels.add(new ChucVuViewModel(cv.getMa(), cv.getTen()));
+        }
+        return listChucVuViewModels;
     }
 
     @Override
     public String addNChucVu(ChucVuViewModel cv) {
-        boolean check = repository.addChucVu(cv);
+        ChucVu cvDomain = new ChucVu();
+        cvDomain.setMa(cv.getMa());
+        cvDomain.setTen(cv.getTen());
+        boolean check = repository.addChucVu(cvDomain);
         if (check == true) {
             return "Add successful";
         } else {
@@ -34,7 +45,10 @@ public class ChucVuServiceImpl implements ChucVuService {
 
     @Override
     public String updateChucVu(ChucVuViewModel cv, String ma) {
-        boolean check = repository.updateChucVu(cv, ma);
+        ChucVu cvDomain = new ChucVu();
+        cvDomain.setMa(cv.getMa());
+        cvDomain.setTen(cv.getTen());
+        boolean check = repository.updateChucVu(cvDomain, ma);
         if (check == true) {
             return "Update successful";
         } else {
@@ -54,7 +68,9 @@ public class ChucVuServiceImpl implements ChucVuService {
 
     @Override
     public ChucVuViewModel getOneChucVu(String ma) {
-        return repository.getOneChucVu(ma);
+        ChucVu cvDomain = repository.getOneChucVu(ma);
+        ChucVuViewModel chucVuViewModel = new ChucVuViewModel(cvDomain.getMa(), cvDomain.getTen());
+        return chucVuViewModel;
     }
 
 }

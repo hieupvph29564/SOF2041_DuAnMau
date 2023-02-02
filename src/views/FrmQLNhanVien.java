@@ -34,7 +34,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
         cbbTrangThai.addItem("0");
         cbbTrangThai.addItem("1");
         showDataTable(service.getAllNhanVien());
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
     }
 
     private void showDataTable(List<NhanVienViewModel> list) {

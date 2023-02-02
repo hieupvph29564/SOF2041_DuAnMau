@@ -4,13 +4,13 @@
  */
 package repositorys;
 
+import domainmodels.CuaHang;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import utilities.DBContext;
-import viewmodels.CuaHangViewModel;
 
 /**
  *
@@ -18,7 +18,7 @@ import viewmodels.CuaHangViewModel;
  */
 public class CuaHangRepository {
 
-    public List<CuaHangViewModel> getAllCuaHang() {
+    public List<CuaHang> getAllCuaHang() {
         String query = """
                        SELECT [Id]
                              ,[Ma]
@@ -29,10 +29,10 @@ public class CuaHangRepository {
                          FROM [dbo].[CuaHang]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<CuaHangViewModel> list = new ArrayList<>();
+            List<CuaHang> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                CuaHangViewModel ch = new CuaHangViewModel(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                CuaHang ch = new CuaHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                 list.add(ch);
             }
             return list;
@@ -42,7 +42,7 @@ public class CuaHangRepository {
         return null;
     }
 
-    public CuaHangViewModel getOneCuaHang(String ma) {
+    public CuaHang getOneCuaHang(String ma) {
         String query = """
                        SELECT [Id]
                              ,[Ma]
@@ -54,11 +54,11 @@ public class CuaHangRepository {
                          WHERE [Ma] = ?;
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<CuaHangViewModel> list = new ArrayList<>();
+            List<CuaHang> list = new ArrayList<>();
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                CuaHangViewModel ch = new CuaHangViewModel(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+                CuaHang ch = new CuaHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
                 return ch;
             }
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class CuaHangRepository {
         return null;
     }
 
-    public boolean addCuaHang(CuaHangViewModel ch) {
+    public boolean addCuaHang(CuaHang ch) {
         int check = 0;
         String query = """
                       INSERT INTO [dbo].[CuaHang]
@@ -93,7 +93,7 @@ public class CuaHangRepository {
         return check > 0;
     }
 
-    public boolean updateCuaHang(CuaHangViewModel ch, String ma) {
+    public boolean updateCuaHang(CuaHang ch, String ma) {
         int check = 0;
         String query = """
                       UPDATE [dbo].[CuaHang]
