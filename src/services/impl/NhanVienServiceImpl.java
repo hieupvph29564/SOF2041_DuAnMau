@@ -19,15 +19,16 @@ public class NhanVienServiceImpl implements NhanVienService {
 
     NhanVienRepository repository;
     List<NhanVienViewModel> listNhanVienViewModels;
-
+    List<NhanVien> listNhanVienDomains;
     public NhanVienServiceImpl() {
-        repository = new NhanVienRepository();
-        listNhanVienViewModels = new ArrayList<>();
+        repository = new NhanVienRepository(); 
+        listNhanVienDomains = new ArrayList<>();
     }
 
     @Override
     public List<NhanVienViewModel> getAllNhanVien() {
-        List<NhanVien> listNhanVienDomains = repository.getAllNhanVien();
+        listNhanVienViewModels = new ArrayList<>();
+        listNhanVienDomains = repository.getAllNhanVien();
         for (NhanVien nv : listNhanVienDomains) {
             listNhanVienViewModels.add(new NhanVienViewModel(nv.getMa(), nv.getHo(), nv.getTenDem(), nv.getTen(), nv.getGioiTinh(), nv.getDiaChi(), nv.getTrangThai()));
         }

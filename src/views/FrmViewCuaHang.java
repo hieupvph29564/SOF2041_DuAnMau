@@ -15,7 +15,7 @@ import viewmodels.CuaHangViewModel;
  *
  * @author virus
  */
-public class FrmQLCuaHang extends javax.swing.JDialog {
+public class FrmViewCuaHang extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmQLCuaHang
@@ -23,7 +23,7 @@ public class FrmQLCuaHang extends javax.swing.JDialog {
     private DefaultTableModel dtm;
     private CuaHangService service;
     
-    public FrmQLCuaHang(java.awt.Frame parent, boolean modal) {
+    public FrmViewCuaHang(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Quản Lý Cửa Hàng");
@@ -242,20 +242,21 @@ public class FrmQLCuaHang extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmQLCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmQLCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmQLCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmQLCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewCuaHang.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmQLCuaHang dialog = new FrmQLCuaHang(new javax.swing.JFrame(), true);
+                FrmViewCuaHang dialog = new FrmViewCuaHang(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

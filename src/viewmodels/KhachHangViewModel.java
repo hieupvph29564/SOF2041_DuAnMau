@@ -9,6 +9,7 @@ package viewmodels;
  * @author virus
  */
 public class KhachHangViewModel {
+
     private String ma;
     private String ten;
     private String tenDem;
@@ -65,7 +66,8 @@ public class KhachHangViewModel {
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
     }
-    
-    
-    
+
+    public Object[] toRowData() {
+        return new Object[]{this.ma, (this.ho + " " + this.tenDem + " " + this.ten), this.diaChi};
+    }
 }

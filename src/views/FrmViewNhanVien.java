@@ -15,7 +15,7 @@ import viewmodels.NhanVienViewModel;
  *
  * @author virus
  */
-public class FrmQLNhanVien extends javax.swing.JDialog {
+public class FrmViewNhanVien extends javax.swing.JDialog {
 
     /**
      * Creates new form FrmNhanVienView
@@ -23,7 +23,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     NhanVienService service;
     DefaultTableModel dtm;
 
-    public FrmQLNhanVien(java.awt.Frame parent, boolean modal) {
+    public FrmViewNhanVien(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setTitle("Quan Ly Nhan Vien");
@@ -39,7 +39,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
 
     private void showDataTable(List<NhanVienViewModel> list) {
         dtm.setRowCount(0);
-        for (NhanVienViewModel nv : list) {
+        for (NhanVienViewModel nv : service.getAllNhanVien()) {
             dtm.addRow(nv.toRowData());
         }
     }
@@ -264,7 +264,7 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         int index = tbQLNV.getSelectedRow();
-        String ma = tbQLNV.getValueAt(index, 1).toString();
+        String ma = tbQLNV.getValueAt(index, 0).toString();
         NhanVienViewModel nv = new NhanVienViewModel();
         nv.setMa(txtMa.getText());
         String fullName = txtHoVaTen.getText();
@@ -335,21 +335,23 @@ public class FrmQLNhanVien extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmQLNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmViewNhanVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FrmQLNhanVien dialog = new FrmQLNhanVien(new javax.swing.JFrame(), true);
+                FrmViewNhanVien dialog = new FrmViewNhanVien(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

@@ -4,79 +4,42 @@
  */
 package repositorys;
 
-import domainmodels.NhanVien;
-import java.util.List;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import domainmodels.KhachHang;
 import java.util.ArrayList;
+import java.util.List;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class NhanVienRepository {
+public class KhachHangRepository {
 
-    public NhanVien getOne(String ma) {
+    public List<KhachHang> getAllKhachHang() {
         String query = """
                        SELECT [Id]
                              ,[Ma]
                              ,[Ten]
                              ,[TenDem]
                              ,[Ho]
-                             ,[GioiTinh]
                              ,[NgaySinh]
-                             ,[DiaChi]
                              ,[Sdt]
+                             ,[DiaChi]
+                             ,[ThanhPho]
+                             ,[QuocGia]
                              ,[MatKhau]
-                             ,[IdCH]
-                             ,[IdCV]
-                             ,[IdGuiBC]
-                             ,[TrangThai]
-                         FROM [dbo].[NhanVien]
-                          WHERE [Ma] = ?;
+                         FROM [dbo].[KhachHang]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, ma);
+            List<KhachHang> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                NhanVien nv = new NhanVien(rs.getString(1), rs.getString(2),
-                        rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getDate(7), rs.getString(8), rs.getString(9), rs.getString(10),
-                        rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
-                return nv;
-            }
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-        return null;
-    }
-
-    public List<NhanVien> getAllNhanVien() {
-        String query = """
-                       SELECT [Id]
-                             ,[Ma]
-                             ,[Ten]
-                             ,[TenDem]
-                             ,[Ho]
-                             ,[GioiTinh]
-                             ,[NgaySinh]
-                             ,[DiaChi]
-                             ,[Sdt]
-                             ,[MatKhau]
-                             ,[IdCH]
-                             ,[IdCV]
-                             ,[IdGuiBC]
-                             ,[TrangThai]
-                         FROM [dbo].[NhanVien]
-                       """;
-        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<NhanVien> list = new ArrayList<>();
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                NhanVien nv = new NhanVien(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getDate(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12), rs.getString(13), rs.getInt(14));
-                list.add(nv);
+                list.add(new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7),
+                        rs.getString(8), rs.getString(9), rs.getString(10)));
             }
             return list;
         } catch (Exception e) {
@@ -85,34 +48,59 @@ public class NhanVienRepository {
         return null;
     }
 
-    public boolean addNhanVien(NhanVien nv) {
+    public KhachHang getOneKhachHang(String ma) {
+        String query = """
+                       SELECT [Id]
+                             ,[Ma]
+                             ,[Ten]
+                             ,[TenDem]
+                             ,[Ho]
+                             ,[NgaySinh]
+                             ,[Sdt]
+                             ,[DiaChi]
+                             ,[ThanhPho]
+                             ,[QuocGia]
+                             ,[MatKhau]
+                         FROM [dbo].[KhachHang]
+                       WHERE [Ma] = ?;
+                       """;
+        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
+            ps.setObject(1, ma);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                KhachHang kh = new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5), rs.getDate(6), rs.getString(7),
+                        rs.getString(8), rs.getString(9), rs.getString(10));
+                return kh;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return null;
+    }
+
+    public boolean addKhachHang(KhachHang kh) {
         int check = 0;
         String query = """
-                      INSERT INTO [dbo].[NhanVien]
+                            INSERT INTO [dbo].[KhachHang]
                                   ([Ma]
                                   ,[Ten]
                                   ,[TenDem]
                                   ,[Ho]
-                                  ,[GioiTinh]
-                                  ,[DiaChi]
-                                  ,[TrangThai])
+                                  ,[DiaChi])
                             VALUES
                                   (?
-                                  ,?
-                                  ,?
                                   ,?
                                   ,?
                                   ,?
                                   ,?);
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, nv.getMa());
-            ps.setObject(2, nv.getTen());
-            ps.setObject(3, nv.getTenDem());
-            ps.setObject(4, nv.getHo());
-            ps.setObject(5, nv.getGioiTinh());
-            ps.setObject(6, nv.getDiaChi());
-            ps.setObject(7, nv.getTrangThai());
+            ps.setObject(1, kh.getMa());
+            ps.setObject(2, kh.getTen());
+            ps.setObject(3, kh.getTenDem());
+            ps.setObject(4, kh.getHo());
+            ps.setObject(5, kh.getDiaChi());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -120,28 +108,24 @@ public class NhanVienRepository {
         return check > 0;
     }
 
-    public boolean updateNhanVien(NhanVien nv, String ma) {
+    public boolean updateKhachHang(KhachHang kh, String ma) {
         int check = 0;
         String query = """
-                       UPDATE [dbo].[NhanVien]
-                          SET [Ma] = ?
-                             ,[Ten] = ?
-                             ,[TenDem] = ?
-                             ,[Ho] = ?
-                             ,[GioiTinh] = ?
-                             ,[DiaChi] = ?
-                             ,[TrangThai] = ?
-                        WHERE [Ma] = ?
+                        UPDATE [dbo].[KhachHang]
+                               SET [Ma] = ?
+                                  ,[Ten] = ?
+                                  ,[TenDem] = ?
+                                  ,[Ho] = ?
+                                  ,[DiaChi] = ?
+                             WHERE [Ma] =  ?;
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, nv.getMa());
-            ps.setObject(2, nv.getTen());
-            ps.setObject(3, nv.getTenDem());
-            ps.setObject(4, nv.getHo());
-            ps.setObject(5, nv.getGioiTinh());
-            ps.setObject(6, nv.getDiaChi());
-            ps.setObject(7, nv.getTrangThai());
-            ps.setObject(8, ma);
+            ps.setObject(1, kh.getMa());
+            ps.setObject(2, kh.getTen());
+            ps.setObject(3, kh.getTenDem());
+            ps.setObject(4, kh.getHo());
+            ps.setObject(5, kh.getDiaChi());
+            ps.setObject(6, ma);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -149,11 +133,11 @@ public class NhanVienRepository {
         return check > 0;
     }
 
-    public boolean deleteNhanVien(String ma) {
+    public boolean removeKhachHang(String ma) {
         int check = 0;
         String query = """
-                      DELETE FROM [dbo].[NhanVien]
-                             WHERE [Ma] = ?
+                      DELETE FROM [dbo].[KhachHang]
+                              WHERE [Ma] = ?;
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
