@@ -14,17 +14,15 @@ public class KhachHangViewModel {
     private String ten;
     private String tenDem;
     private String ho;
-    private String diaChi;
 
     public KhachHangViewModel() {
     }
 
-    public KhachHangViewModel(String ma, String ten, String tenDem, String ho, String diaChi) {
+    public KhachHangViewModel(String ma, String ten, String tenDem, String ho) {
         this.ma = ma;
         this.ten = ten;
         this.tenDem = tenDem;
         this.ho = ho;
-        this.diaChi = diaChi;
     }
 
     public String getMa() {
@@ -59,15 +57,7 @@ public class KhachHangViewModel {
         this.ho = ho;
     }
 
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
-    }
-
     public Object[] toRowData() {
-        return new Object[]{this.ma, (this.ho + " " + this.tenDem + " " + this.ten), this.diaChi};
+        return new Object[]{this.ma, (this.ho + " " + this.tenDem + " " + this.ten)};
     }
 }

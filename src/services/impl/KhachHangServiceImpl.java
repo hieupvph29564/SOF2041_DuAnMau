@@ -28,7 +28,7 @@ public class KhachHangServiceImpl implements KhachHangService {
         List<KhachHangViewModel> listKhachHangViewModels = new ArrayList<>();
         for (KhachHang kh : repository.getAllKhachHang()) {
             listKhachHangViewModels.add(new KhachHangViewModel(kh.getMa(), kh.getTen(),
-                    kh.getTenDem(), kh.getHo(), kh.getDiaChi()));
+                    kh.getTenDem(), kh.getHo()));
         }
         return listKhachHangViewModels;
     }
@@ -37,7 +37,7 @@ public class KhachHangServiceImpl implements KhachHangService {
     public KhachHangViewModel getOneKhachHang(String ma) {
         KhachHang khDomain = repository.getOneKhachHang(ma);
         return new KhachHangViewModel(khDomain.getMa(), khDomain.getTen(), khDomain.getTenDem(),
-                khDomain.getHo(), khDomain.getDiaChi());
+                khDomain.getHo());
     }
 
     @Override
@@ -47,7 +47,6 @@ public class KhachHangServiceImpl implements KhachHangService {
         khDomain.setTen(kh.getTen());
         khDomain.setTenDem(kh.getTenDem());
         khDomain.setHo(kh.getHo());
-        khDomain.setDiaChi(kh.getDiaChi());
         boolean check = repository.addKhachHang(khDomain);
         if (check == true) {
             return "Add successful";
@@ -63,7 +62,6 @@ public class KhachHangServiceImpl implements KhachHangService {
         khDomain.setTen(kh.getTen());
         khDomain.setTenDem(kh.getTenDem());
         khDomain.setHo(kh.getHo());
-        khDomain.setDiaChi(kh.getDiaChi());
         boolean check = repository.updateKhachHang(khDomain, ma);
         if (check == true) {
             return "Update successful";
