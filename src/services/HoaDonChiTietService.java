@@ -13,6 +13,10 @@ import viewmodels.HoaDonChiTietViewModel;
  */
 public interface HoaDonChiTietService {
 
+    List<String> getAllMaHoaDon();
+
+    List<String> getAllMaCTSP();
+
     List<HoaDonChiTietViewModel> getAllHoaDon();
 
     HoaDonChiTietViewModel getOneHoaDon(String ma);

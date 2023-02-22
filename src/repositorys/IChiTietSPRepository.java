@@ -2,16 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package services;
+package repositorys;
 
+import domainmodels.ChiTietSP;
 import java.util.List;
-import viewmodels.ChiTietSPViewModel;
 
 /**
  *
  * @author virus
  */
-public interface ChiTietSPService {
+public interface IChiTietSPRepository {
+
+    ChiTietSP getOneChiTietSP(String ma);
 
     List<String> getAllIdSP();
 
@@ -21,13 +23,11 @@ public interface ChiTietSPService {
 
     List<String> getAllIdDongSP();
 
-    List<ChiTietSPViewModel> getAllChiTietSP();
+    List<ChiTietSP> getAllChiTietSP();
 
-    ChiTietSPViewModel getOneChiTietSP(String ma);
+    boolean addChiTietSP(ChiTietSP sp);
 
-    String addChiTietSP(ChiTietSPViewModel ctsp);
+    boolean updateChiTietSP(ChiTietSP sp, String ma);
 
-    String updateChiTietSP(ChiTietSPViewModel ctsp, String ma);
-
-    String removeChiTietSP(String ma);
+    boolean deleteChiTietSP(String ma);
 }

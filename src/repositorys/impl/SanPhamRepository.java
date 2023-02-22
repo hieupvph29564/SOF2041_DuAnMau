@@ -2,34 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
-import domainmodels.DongSP;
+import domainmodels.SanPham;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.ISanPhamRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class DongSPRepository {
+public class SanPhamRepository implements ISanPhamRepository {
 
-    public List<DongSP> getAllDongSP() {
+    @Override
+    public List<SanPham> getAllSanPHam() {
         String query = """
                        SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[DongSP]
+                         FROM [dbo].[SanPham]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<DongSP> list = new ArrayList<>();
+            List<SanPham> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new DongSP(rs.getString(1), rs.getString(2), rs.getString(3)));
+                list.add(new SanPham(rs.getString(1), rs.getString(2), rs.getString(3)));
             }
             return list;
         } catch (Exception e) {
@@ -38,19 +40,20 @@ public class DongSPRepository {
         return null;
     }
 
-    public DongSP getOneDongSP(String ma) {
+    @Override
+    public SanPham getOneSanPHam(String ma) {
         String query = """
                        SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[DongSP]
+                         FROM [dbo].[SanPham]
                          WHERE [Ma] = ?
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new DongSP(rs.getString(1), rs.getString(2), rs.getString(3));
+                return new SanPham(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -58,10 +61,11 @@ public class DongSPRepository {
         return null;
     }
 
-    public boolean addDongSP(DongSP sp) {
+    @Override
+    public boolean addSanPham(SanPham sp) {
         int check = 0;
         String query = """
-                     INSERT INTO [dbo].[DongSP]
+                     INSERT INTO [dbo].[SanPham]
                                 ([Ma]
                                 ,[Ten])
                           VALUES
@@ -78,10 +82,11 @@ public class DongSPRepository {
         return check > 0;
     }
 
-    public boolean updateMauSac(DongSP sp, String ma) {
+    @Override
+    public boolean updateSanPham(SanPham sp, String ma) {
         int check = 0;
         String query = """
-                     UPDATE [dbo].[DongSP]
+                     UPDATE [dbo].[SanPham]
                                                SET [Ma] = ?
                                                   ,[Ten] = ?
                                              WHERE [Ma] = ?
@@ -97,10 +102,11 @@ public class DongSPRepository {
         return check > 0;
     }
 
-    public boolean removeDongSP(String ma) {
+    @Override
+    public boolean removeSanPham(String ma) {
         int check = 0;
         String query = """
-                     DELETE FROM [dbo].[DongSP]
+                     DELETE FROM [dbo].[SanPham]
                            WHERE [Ma] = ?
                      """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {

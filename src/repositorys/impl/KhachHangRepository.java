@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,14 +10,16 @@ import java.sql.PreparedStatement;
 import domainmodels.KhachHang;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.IKhachHangRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class KhachHangRepository {
+public class KhachHangRepository implements IKhachHangRepository {
 
+    @Override
     public List<KhachHang> getAllKhachHang() {
         String query = """
                        SELECT [Id]
@@ -48,6 +50,7 @@ public class KhachHangRepository {
         return null;
     }
 
+    @Override
     public KhachHang getOneKhachHang(String ma) {
         String query = """
                        SELECT [Id]
@@ -79,6 +82,7 @@ public class KhachHangRepository {
         return null;
     }
 
+    @Override
     public boolean addKhachHang(KhachHang kh) {
         int check = 0;
         String query = """
@@ -108,6 +112,7 @@ public class KhachHangRepository {
         return check > 0;
     }
 
+    @Override
     public boolean updateKhachHang(KhachHang kh, String ma) {
         int check = 0;
         String query = """
@@ -133,6 +138,7 @@ public class KhachHangRepository {
         return check > 0;
     }
 
+    @Override
     public boolean removeKhachHang(String ma) {
         int check = 0;
         String query = """

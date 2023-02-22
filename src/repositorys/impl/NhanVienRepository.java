@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
 import domainmodels.NhanVien;
 import java.util.List;
@@ -10,14 +10,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import repositorys.INhanVienRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class NhanVienRepository {
+public class NhanVienRepository implements INhanVienRepository {
 
+    @Override
     public NhanVien getOne(String ma) {
         String query = """
                        SELECT [Id]
@@ -53,6 +55,7 @@ public class NhanVienRepository {
         return null;
     }
 
+    @Override
     public List<NhanVien> getAllNhanVien() {
         String query = """
                        SELECT [Id]
@@ -85,6 +88,7 @@ public class NhanVienRepository {
         return null;
     }
 
+    @Override
     public boolean addNhanVien(NhanVien nv) {
         int check = 0;
         String query = """
@@ -120,6 +124,7 @@ public class NhanVienRepository {
         return check > 0;
     }
 
+    @Override
     public boolean updateNhanVien(NhanVien nv, String ma) {
         int check = 0;
         String query = """
@@ -149,6 +154,7 @@ public class NhanVienRepository {
         return check > 0;
     }
 
+    @Override
     public boolean deleteNhanVien(String ma) {
         int check = 0;
         String query = """

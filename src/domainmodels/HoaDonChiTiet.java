@@ -11,6 +11,7 @@ import java.math.BigDecimal;
  * @author virus
  */
 public class HoaDonChiTiet {
+
     private String idHoaDon;
     private String idChiTietSP;
     private int soLuong;
@@ -57,5 +58,5 @@ public class HoaDonChiTiet {
     public void setDonGia(BigDecimal donGia) {
         this.donGia = donGia;
     }
-    
+
 }

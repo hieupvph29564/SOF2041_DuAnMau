@@ -2,38 +2,48 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
-import domainmodels.CuaHang;
+import domainmodels.HoaDon;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.IHoaDonRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class CuaHangRepository {
+public class HoaDonRepository implements IHoaDonRepository {
 
-    public List<CuaHang> getAllCuaHang() {
+    @Override
+    public List<HoaDon> getAllHoaDon() {
         String query = """
                        SELECT [Id]
+                             ,[IdKH]
+                             ,[IdNV]
                              ,[Ma]
-                             ,[Ten]
+                             ,[NgayTao]
+                             ,[NgayThanhToan]
+                             ,[NgayShip]
+                             ,[NgayNhan]
+                             ,[TinhTrang]
+                             ,[TenNguoiNhan]
                              ,[DiaChi]
-                             ,[ThanhPho]
-                             ,[QuocGia]
-                         FROM [dbo].[CuaHang]
+                             ,[Sdt]
+                         FROM [dbo].[HoaDon]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<CuaHang> list = new ArrayList<>();
+            List<HoaDon> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                CuaHang ch = new CuaHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-                list.add(ch);
+                list.add(new HoaDon(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getDate(5), rs.getDate(6),
+                        rs.getDate(7), rs.getDate(8), rs.getInt(9),
+                        rs.getString(10), rs.getString(11), rs.getString(12)));
             }
             return list;
         } catch (Exception e) {
@@ -42,24 +52,32 @@ public class CuaHangRepository {
         return null;
     }
 
-    public CuaHang getOneCuaHang(String ma) {
+    @Override
+    public HoaDon getOneHoaDon(String ma) {
         String query = """
                        SELECT [Id]
+                             ,[IdKH]
+                             ,[IdNV]
                              ,[Ma]
-                             ,[Ten]
+                             ,[NgayTao]
+                             ,[NgayThanhToan]
+                             ,[NgayShip]
+                             ,[NgayNhan]
+                             ,[TinhTrang]
+                             ,[TenNguoiNhan]
                              ,[DiaChi]
-                             ,[ThanhPho]
-                             ,[QuocGia]
-                         FROM [dbo].[CuaHang]
+                             ,[Sdt]
+                         FROM [dbo].[HoaDon]
                          WHERE [Ma] = ?;
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<CuaHang> list = new ArrayList<>();
-            ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                CuaHang ch = new CuaHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
-                return ch;
+                HoaDon hd = new HoaDon(rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getDate(5), rs.getDate(6),
+                        rs.getDate(7), rs.getDate(8), rs.getInt(9),
+                        rs.getString(10), rs.getString(11), rs.getString(12));
+                return hd;
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -67,25 +85,20 @@ public class CuaHangRepository {
         return null;
     }
 
-    public boolean addCuaHang(CuaHang ch) {
+    @Override
+    public boolean addHoaDon(HoaDon hd) {
         int check = 0;
         String query = """
-                      INSERT INTO [dbo].[CuaHang]
-                                  ([Ma]
-                                  ,[Ten]
-                                  ,[DiaChi]
-                                  ,[ThanhPho])
+                     INSERT INTO [dbo].[HoaDon]
+                       			([Ma]
+                                  ,[TinhTrang])
                             VALUES
                                   (?
-                                  ,?
-                                  ,?
                                   ,?)
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, ch.getMa());
-            ps.setObject(2, ch.getTen());
-            ps.setObject(3, ch.getDiaChi());
-            ps.setObject(4, ch.getThanhPho());
+            ps.setObject(1, hd.getMa());
+            ps.setObject(2, hd.getTinhTrang());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -93,22 +106,19 @@ public class CuaHangRepository {
         return check > 0;
     }
 
-    public boolean updateCuaHang(CuaHang ch, String ma) {
+    @Override
+    public boolean updateHoaDon(HoaDon hd, String ma) {
         int check = 0;
         String query = """
-                      UPDATE [dbo].[CuaHang]
-                         SET [Ma] = ?
-                            ,[Ten] = ?
-                            ,[DiaChi] = ?
-                            ,[ThanhPho] = ?
-                       WHERE [Ma] = ?
+                    UPDATE [dbo].[HoaDon]
+                        SET [Ma] = ?
+                           ,[TinhTrang] = ?
+                      WHERE [Ma] = ?
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, ch.getMa());
-            ps.setObject(2, ch.getTen());
-            ps.setObject(3, ch.getDiaChi());
-            ps.setObject(4, ch.getThanhPho());
-            ps.setObject(5, ma);
+            ps.setObject(1, hd.getMa());
+            ps.setObject(2, hd.getTinhTrang());
+            ps.setObject(3, ma);
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -116,11 +126,12 @@ public class CuaHangRepository {
         return check > 0;
     }
 
-    public boolean deleteCuaHang(String ma) {
+    @Override
+    public boolean deleteHoaDon(String ma) {
         int check = 0;
         String query = """
-                     DELETE FROM [dbo].[CuaHang]
-                            WHERE [Ma] = ?
+                    DELETE FROM [dbo].[HoaDon]
+                      WHERE [Ma] = ?
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);

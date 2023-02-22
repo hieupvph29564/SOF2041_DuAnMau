@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.CuaHang;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.CuaHangRepository;
+import repositorys.ICuaHangRepository;
+import repositorys.impl.CuaHangRepository;
 import services.CuaHangService;
 import viewmodels.CuaHangViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.CuaHangViewModel;
  */
 public class CuaHangServiceImpl implements CuaHangService {
 
-    CuaHangRepository repository = new CuaHangRepository();
+    ICuaHangRepository repository = new CuaHangRepository();
     List<CuaHang> listCuaHangDomains = new ArrayList<>();
 
     @Override

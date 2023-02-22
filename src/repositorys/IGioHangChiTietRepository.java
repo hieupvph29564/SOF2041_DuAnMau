@@ -2,26 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package services;
+package repositorys;
 
+import domainmodels.GioHangChiTiet;
 import java.util.List;
-import viewmodels.GioHangChiTietViewModel;
 
 /**
  *
  * @author virus
  */
-public interface GioHangChiTietService {
+public interface IGioHangChiTietRepository {
 
     List<String> getAllMaGioHang();
 
     List<String> getAllMaSanPham();
 
-    List<GioHangChiTietViewModel> getAllGioHang();
+    List<GioHangChiTiet> getAllGioHang();
 
-    String addGioHang(GioHangChiTietViewModel gh);
+    boolean addGioHang(GioHangChiTiet gh);
 
-    String updateGioHang(GioHangChiTietViewModel gh, String ma);
+    boolean updateGioHang(GioHangChiTiet gh, String ma);
 
-    String removeGioHang(String ma);
+    boolean deleteGioHang(String ma);
 }

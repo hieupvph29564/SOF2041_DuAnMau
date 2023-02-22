@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.SanPham;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.SanPhamRepository;
+import repositorys.ISanPhamRepository;
+import repositorys.impl.SanPhamRepository;
 import services.SanPhamService;
 import viewmodels.SanPhamViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.SanPhamViewModel;
  */
 public class SanPhamServiceImpl implements SanPhamService {
 
-    SanPhamRepository repository = new SanPhamRepository();
+    ISanPhamRepository repository = new SanPhamRepository();
 
     @Override
     public List<SanPhamViewModel> getAllSanPham() {

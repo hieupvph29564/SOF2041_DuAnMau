@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.NSX;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.NSXRepository;
+import repositorys.INSXRepository;
+import repositorys.impl.NSXRepository;
 import services.NSXService;
 import viewmodels.NSXViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.NSXViewModel;
  */
 public class NSXServiceImpl implements NSXService {
 
-    NSXRepository repository = new NSXRepository();
+    INSXRepository repository = new NSXRepository();
 
     @Override
     public List<NSXViewModel> getAllNSX() {

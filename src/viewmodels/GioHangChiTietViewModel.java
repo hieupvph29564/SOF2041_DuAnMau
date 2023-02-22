@@ -15,16 +15,14 @@ public class GioHangChiTietViewModel {
     private String idGioHang;
     private String idChiTietSP;
     private int soLuong;
-    private BigDecimal donGia;
 
     public GioHangChiTietViewModel() {
     }
 
-    public GioHangChiTietViewModel(String idGioHang, String idChiTietSP, int soLuong, BigDecimal donGia) {
+    public GioHangChiTietViewModel(String idGioHang, String idChiTietSP, int soLuong) {
         this.idGioHang = idGioHang;
         this.idChiTietSP = idChiTietSP;
         this.soLuong = soLuong;
-        this.donGia = donGia;
     }
 
     public String getIdGioHang() {
@@ -51,15 +49,7 @@ public class GioHangChiTietViewModel {
         this.soLuong = soLuong;
     }
 
-    public BigDecimal getDonGia() {
-        return donGia;
-    }
-
-    public void setDonGia(BigDecimal donGia) {
-        this.donGia = donGia;
-    }
-
     public Object[] toRowData() {
-        return new Object[]{this.idGioHang, this.idChiTietSP, this.soLuong, this.donGia};
+        return new Object[]{this.idGioHang, this.idChiTietSP, this.soLuong};
     }
 }

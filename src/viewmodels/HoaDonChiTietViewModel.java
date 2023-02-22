@@ -4,7 +4,6 @@
  */
 package viewmodels;
 
-import java.math.BigDecimal;
 
 /**
  *
@@ -13,18 +12,16 @@ import java.math.BigDecimal;
 public class HoaDonChiTietViewModel {
 
     private String idHoaDon;
-    private String idChiTietSanPham;
+    private String idChiTietSP;
     private int soLuong;
-    private BigDecimal donGia;
 
-    public HoaDonChiTietViewModel() {
+    public HoaDonChiTietViewModel(String idHoaDon, String idChiTietSP, int soLuong) {
+        this.idHoaDon = idHoaDon;
+        this.idChiTietSP = idChiTietSP;
+        this.soLuong = soLuong;
     }
 
-    public HoaDonChiTietViewModel(String idHoaDon, String idChiTietSanPham, int soLuong, BigDecimal donGia) {
-        this.idHoaDon = idHoaDon;
-        this.idChiTietSanPham = idChiTietSanPham;
-        this.soLuong = soLuong;
-        this.donGia = donGia;
+    public HoaDonChiTietViewModel() {
     }
 
     public String getIdHoaDon() {
@@ -35,12 +32,12 @@ public class HoaDonChiTietViewModel {
         this.idHoaDon = idHoaDon;
     }
 
-    public String getIdChiTietSanPham() {
-        return idChiTietSanPham;
+    public String getIdChiTietSP() {
+        return idChiTietSP;
     }
 
-    public void setIdChiTietSanPham(String idChiTietSanPham) {
-        this.idChiTietSanPham = idChiTietSanPham;
+    public void setIdChiTietSP(String idChiTietSP) {
+        this.idChiTietSP = idChiTietSP;
     }
 
     public int getSoLuong() {
@@ -51,15 +48,7 @@ public class HoaDonChiTietViewModel {
         this.soLuong = soLuong;
     }
 
-    public BigDecimal getDonGia() {
-        return donGia;
-    }
-
-    public void setDonGia(BigDecimal donGia) {
-        this.donGia = donGia;
-    }
-
     public Object[] toRowData() {
-        return new Object[]{this.idHoaDon, this.idChiTietSanPham, this.soLuong, this.donGia};
+        return new Object[]{this.idHoaDon, this.idChiTietSP, this.soLuong};
     }
 }

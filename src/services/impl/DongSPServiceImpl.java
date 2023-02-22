@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.DongSP;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.DongSPRepository;
+import repositorys.IDongSPRepository;
+import repositorys.impl.DongSPRepository;
 import services.DongSPService;
 import viewmodels.DongSPViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.DongSPViewModel;
  */
 public class DongSPServiceImpl implements DongSPService {
 
-    DongSPRepository repository = new DongSPRepository();
+    IDongSPRepository repository = new DongSPRepository();
 
     @Override
     public List<DongSPViewModel> getAllDongSP() {

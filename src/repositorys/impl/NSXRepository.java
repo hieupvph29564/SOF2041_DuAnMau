@@ -2,35 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
-import domainmodels.ChucVu;
+import domainmodels.NSX;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.INSXRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class ChucVuRepository {
+public class NSXRepository implements INSXRepository {
 
-    public List<ChucVu> getAllChucVu() {
+    @Override
+    public List<NSX> getAllNSX() {
         String query = """
-                      SELECT [Id]
+                       SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[ChucVu]
+                         FROM [dbo].[NSX]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<ChucVu> list = new ArrayList<>();
+            List<NSX> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
-                list.add(cv);
+                list.add(new NSX(rs.getString(1), rs.getString(2), rs.getString(3)));
             }
             return list;
         } catch (Exception e) {
@@ -39,20 +40,20 @@ public class ChucVuRepository {
         return null;
     }
 
-    public ChucVu getOneChucVu(String ma) {
+    @Override
+    public NSX getOneNSX(String ma) {
         String query = """
-                      SELECT [Id]
+                       SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[ChucVu]
-                         WHERE [Ma] = ?;
+                         FROM [dbo].[NSX]
+                         WHERE [Ma] = ?
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
-                return cv;
+                return new NSX(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -60,19 +61,20 @@ public class ChucVuRepository {
         return null;
     }
 
-    public boolean addChucVu(ChucVu cv) {
+    @Override
+    public boolean addNSX(NSX sp) {
         int check = 0;
         String query = """
-                      INSERT INTO [dbo].[ChucVu]
-                                 ([Ma]
-                                 ,[Ten])
-                           VALUES
-                                 (?
-                                 ,?);
-                       """;
+                     INSERT INTO [dbo].[NSX]
+                                ([Ma]
+                                ,[Ten])
+                          VALUES
+                                (?
+                                ,?)
+                     """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, cv.getMa());
-            ps.setObject(2, cv.getTen());
+            ps.setObject(1, sp.getMa());
+            ps.setObject(2, sp.getTen());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -80,17 +82,18 @@ public class ChucVuRepository {
         return check > 0;
     }
 
-    public boolean updateChucVu(ChucVu cv, String ma) {
+    @Override
+    public boolean updateNSX(NSX sp, String ma) {
         int check = 0;
         String query = """
-                    UPDATE [dbo].[ChucVu]
-                         SET [Ma] = ?
-                            ,[Ten] = ?
-                       WHERE [Ma] = ?
-                       """;
+                     UPDATE [dbo].[NSX]
+                                               SET [Ma] = ?
+                                                  ,[Ten] = ?
+                                             WHERE [Ma] = ?
+                     """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, cv.getMa());
-            ps.setObject(2, cv.getTen());
+            ps.setObject(1, sp.getMa());
+            ps.setObject(2, sp.getTen());
             ps.setObject(3, ma);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -99,12 +102,13 @@ public class ChucVuRepository {
         return check > 0;
     }
 
-    public boolean deleteChucVu(String ma) {
+    @Override
+    public boolean removeNSX(String ma) {
         int check = 0;
         String query = """
-                     DELETE FROM [dbo].[ChucVu]
-                            WHERE [Ma] = ?
-                       """;
+                     DELETE FROM [dbo].[NSX]
+                           WHERE [Ma] = ?
+                     """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             check = ps.executeUpdate();

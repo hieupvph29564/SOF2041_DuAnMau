@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.ChucVu;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.ChucVuRepository;
+import repositorys.IChucVuRepository;
+import repositorys.impl.ChucVuRepository;
 import services.ChucVuService;
 import viewmodels.ChucVuViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.ChucVuViewModel;
  */
 public class ChucVuServiceImpl implements ChucVuService {
 
-    ChucVuRepository repository = new ChucVuRepository();
+    IChucVuRepository repository = new ChucVuRepository();
     List<ChucVu> listChucVuDomain = new ArrayList<>();
 
     @Override

@@ -2,34 +2,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
-import domainmodels.SanPham;
+import domainmodels.ChucVu;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.IChucVuRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class SanPhamRepository {
+public class ChucVuRepository implements IChucVuRepository {
 
-    public List<SanPham> getAllSanPHam() {
+    @Override
+    public List<ChucVu> getAllChucVu() {
         String query = """
-                       SELECT [Id]
+                      SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[SanPham]
+                         FROM [dbo].[ChucVu]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<SanPham> list = new ArrayList<>();
+            List<ChucVu> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new SanPham(rs.getString(1), rs.getString(2), rs.getString(3)));
+                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
+                list.add(cv);
             }
             return list;
         } catch (Exception e) {
@@ -38,19 +41,21 @@ public class SanPhamRepository {
         return null;
     }
 
-    public SanPham getOneSanPHam(String ma) {
+    @Override
+    public ChucVu getOneChucVu(String ma) {
         String query = """
-                       SELECT [Id]
+                      SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[SanPham]
-                         WHERE [Ma] = ?
+                         FROM [dbo].[ChucVu]
+                         WHERE [Ma] = ?;
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new SanPham(rs.getString(1), rs.getString(2), rs.getString(3));
+                ChucVu cv = new ChucVu(rs.getString(1), rs.getString(2), rs.getString(3));
+                return cv;
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -58,19 +63,20 @@ public class SanPhamRepository {
         return null;
     }
 
-    public boolean addSanPham(SanPham sp) {
+    @Override
+    public boolean addChucVu(ChucVu cv) {
         int check = 0;
         String query = """
-                     INSERT INTO [dbo].[SanPham]
-                                ([Ma]
-                                ,[Ten])
-                          VALUES
-                                (?
-                                ,?)
-                     """;
+                      INSERT INTO [dbo].[ChucVu]
+                                 ([Ma]
+                                 ,[Ten])
+                           VALUES
+                                 (?
+                                 ,?);
+                       """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, sp.getMa());
-            ps.setObject(2, sp.getTen());
+            ps.setObject(1, cv.getMa());
+            ps.setObject(2, cv.getTen());
             check = ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -78,17 +84,18 @@ public class SanPhamRepository {
         return check > 0;
     }
 
-    public boolean updateSanPham(SanPham sp, String ma) {
+    @Override
+    public boolean updateChucVu(ChucVu cv, String ma) {
         int check = 0;
         String query = """
-                     UPDATE [dbo].[SanPham]
-                                               SET [Ma] = ?
-                                                  ,[Ten] = ?
-                                             WHERE [Ma] = ?
-                     """;
+                    UPDATE [dbo].[ChucVu]
+                         SET [Ma] = ?
+                            ,[Ten] = ?
+                       WHERE [Ma] = ?
+                       """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setObject(1, sp.getMa());
-            ps.setObject(2, sp.getTen());
+            ps.setObject(1, cv.getMa());
+            ps.setObject(2, cv.getTen());
             ps.setObject(3, ma);
             check = ps.executeUpdate();
         } catch (Exception e) {
@@ -97,12 +104,13 @@ public class SanPhamRepository {
         return check > 0;
     }
 
-    public boolean removeSanPham(String ma) {
+    @Override
+    public boolean deleteChucVu(String ma) {
         int check = 0;
         String query = """
-                     DELETE FROM [dbo].[SanPham]
-                           WHERE [Ma] = ?
-                     """;
+                     DELETE FROM [dbo].[ChucVu]
+                            WHERE [Ma] = ?
+                       """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             check = ps.executeUpdate();

@@ -10,7 +10,6 @@ package viewmodels;
  */
 public class ChiTietSPViewModel {
 
-    private String id;
     private String idSP;
     private String idNSX;
     private String idMauSac;
@@ -20,21 +19,12 @@ public class ChiTietSPViewModel {
     public ChiTietSPViewModel() {
     }
 
-    public ChiTietSPViewModel(String id, String idSP, String idNSX, String idMauSac, String idDongSP, String soLuongTon) {
-        this.id = id;
+    public ChiTietSPViewModel(String idSP, String idNSX, String idMauSac, String idDongSP, String soLuongTon) {
         this.idSP = idSP;
         this.idNSX = idNSX;
         this.idMauSac = idMauSac;
         this.idDongSP = idDongSP;
         this.soLuongTon = soLuongTon;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getIdSP() {
@@ -78,6 +68,6 @@ public class ChiTietSPViewModel {
     }
 
     public Object[] toRowData() {
-        return new Object[]{this.id, this.idSP, this.idNSX, this.idMauSac, this.idDongSP, this.soLuongTon};
+        return new Object[]{this.idSP, this.idNSX, this.idMauSac, this.idDongSP, this.soLuongTon};
     }
 }

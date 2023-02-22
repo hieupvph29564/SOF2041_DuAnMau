@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.KhachHang;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.KhachHangRepository;
+import repositorys.IKhachHangRepository;
+import repositorys.impl.KhachHangRepository;
 import services.KhachHangService;
 import viewmodels.KhachHangViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.KhachHangViewModel;
  */
 public class KhachHangServiceImpl implements KhachHangService {
 
-    KhachHangRepository repository;
+    IKhachHangRepository repository;
 
     public KhachHangServiceImpl() {
         repository = new KhachHangRepository();

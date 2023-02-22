@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.HoaDon;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.HoaDonRepository;
+import repositorys.IHoaDonRepository;
+import repositorys.impl.HoaDonRepository;
 import services.HoaDonService;
 import viewmodels.HoaDonViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.HoaDonViewModel;
  */
 public class HoaDonServiceImpl implements HoaDonService {
 
-    HoaDonRepository repository = new HoaDonRepository();
+    IHoaDonRepository repository = new HoaDonRepository();
 
     @Override
     public List<HoaDonViewModel> getAllHoaDon() {

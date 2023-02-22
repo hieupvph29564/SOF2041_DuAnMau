@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.MauSac;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.MauSacRepository;
+import repositorys.IMauSacRepository;
+import repositorys.impl.MauSacRepository;
 import services.MauSacService;
 import viewmodels.MauSacViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.MauSacViewModel;
  */
 public class MauSacServiceImpl implements MauSacService {
 
-    MauSacRepository repository = new MauSacRepository();
+    IMauSacRepository repository = new MauSacRepository();
 
     @Override
     public List<MauSacViewModel> getAllMauSac() {

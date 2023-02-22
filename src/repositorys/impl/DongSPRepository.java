@@ -2,34 +2,36 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package repositorys;
+package repositorys.impl;
 
-import domainmodels.MauSac;
+import domainmodels.DongSP;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
+import repositorys.IDongSPRepository;
 import utilities.DBContext;
 
 /**
  *
  * @author virus
  */
-public class MauSacRepository {
+public class DongSPRepository implements IDongSPRepository {
 
-    public List<MauSac> getAllMauSac() {
+    @Override
+    public List<DongSP> getAllDongSP() {
         String query = """
                        SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[MauSac]
+                         FROM [dbo].[DongSP]
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
-            List<MauSac> list = new ArrayList<>();
+            List<DongSP> list = new ArrayList<>();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                list.add(new MauSac(rs.getString(1), rs.getString(2), rs.getString(3)));
+                list.add(new DongSP(rs.getString(1), rs.getString(2), rs.getString(3)));
             }
             return list;
         } catch (Exception e) {
@@ -38,19 +40,20 @@ public class MauSacRepository {
         return null;
     }
 
-    public MauSac getOneMauSac(String ma) {
+    @Override
+    public DongSP getOneDongSP(String ma) {
         String query = """
                        SELECT [Id]
                              ,[Ma]
                              ,[Ten]
-                         FROM [dbo].[MauSac]
+                         FROM [dbo].[DongSP]
                          WHERE [Ma] = ?
                        """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {
             ps.setObject(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new MauSac(rs.getString(1), rs.getString(2), rs.getString(3));
+                return new DongSP(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -58,10 +61,11 @@ public class MauSacRepository {
         return null;
     }
 
-    public boolean addMauSac(MauSac sp) {
+    @Override
+    public boolean addDongSP(DongSP sp) {
         int check = 0;
         String query = """
-                     INSERT INTO [dbo].[MauSac]
+                     INSERT INTO [dbo].[DongSP]
                                 ([Ma]
                                 ,[Ten])
                           VALUES
@@ -78,10 +82,11 @@ public class MauSacRepository {
         return check > 0;
     }
 
-    public boolean updateMauSac(MauSac sp, String ma) {
+    @Override
+    public boolean updateMauSac(DongSP sp, String ma) {
         int check = 0;
         String query = """
-                     UPDATE [dbo].[MauSac]
+                     UPDATE [dbo].[DongSP]
                                                SET [Ma] = ?
                                                   ,[Ten] = ?
                                              WHERE [Ma] = ?
@@ -97,10 +102,11 @@ public class MauSacRepository {
         return check > 0;
     }
 
-    public boolean removeMauSac(String ma) {
+    @Override
+    public boolean removeDongSP(String ma) {
         int check = 0;
         String query = """
-                     DELETE FROM [dbo].[MauSac]
+                     DELETE FROM [dbo].[DongSP]
                            WHERE [Ma] = ?
                      """;
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(query)) {

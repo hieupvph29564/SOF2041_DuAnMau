@@ -7,7 +7,8 @@ package services.impl;
 import domainmodels.NhanVien;
 import java.util.ArrayList;
 import java.util.List;
-import repositorys.NhanVienRepository;
+import repositorys.INhanVienRepository;
+import repositorys.impl.NhanVienRepository;
 import services.NhanVienService;
 import viewmodels.NhanVienViewModel;
 
@@ -17,7 +18,7 @@ import viewmodels.NhanVienViewModel;
  */
 public class NhanVienServiceImpl implements NhanVienService {
 
-    NhanVienRepository repository;
+    INhanVienRepository repository;
     List<NhanVienViewModel> listNhanVienViewModels;
     List<NhanVien> listNhanVienDomains;
     public NhanVienServiceImpl() {
